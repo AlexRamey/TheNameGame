@@ -36,6 +36,9 @@
                                 <state key="normal" title="Choice 2" backgroundImage="CorrectButton">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="choiceSelected:" destination="BYZ-38-t0r" eventType="touchUpInside" id="49o-y7-BeE"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ShP-rZ-Dnz">
                                 <rect key="frame" x="16" y="104" width="288" height="248"/>
@@ -49,6 +52,9 @@
                                 <state key="normal" title="Choice 3" backgroundImage="WrongButton">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="choiceSelected:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NF3-58-Of7"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZT-zj-pfA">
                                 <rect key="frame" x="16" y="524" width="288" height="36"/>
@@ -59,6 +65,9 @@
                                 <state key="normal" title="Choice 4" backgroundImage="NeutralButton">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="choiceSelected:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b20-6W-eIn"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😖 - Swipe Right to Continue" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29H-7V-Blp">
                                 <rect key="frame" x="16" y="360" width="288" height="24"/>
@@ -78,6 +87,9 @@
                                 <state key="normal" title="Choice 1" backgroundImage="NeutralButton">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="choiceSelected:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TyR-T1-xro"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -112,7 +124,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="The Name Game" id="hBh-5P-9SK">
                         <barButtonItem key="backBarButtonItem" title="Back" id="0IL-cF-YB8"/>
-                        <barButtonItem key="leftBarButtonItem" title="Reset" id="ouu-ee-Bya"/>
+                        <barButtonItem key="leftBarButtonItem" title="Reset" id="ouu-ee-Bya">
+                            <connections>
+                                <action selector="resetGame:" destination="BYZ-38-t0r" id="5gX-3a-YRe"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="gzt-wt-C8C">
                             <connections>
                                 <segue destination="sJl-fx-jNx" kind="show" id="UPf-ly-iwm"/>
@@ -121,11 +137,23 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="choiceFour" destination="GZT-zj-pfA" id="0Pk-Fl-Kx6"/>
+                        <outlet property="choiceOne" destination="n5V-HL-5iv" id="X2C-Y3-02Y"/>
+                        <outlet property="choiceThree" destination="Nf9-m2-7kY" id="PRq-Ul-oSb"/>
+                        <outlet property="choiceTwo" destination="Oei-Gp-cN7" id="FnN-v1-dHt"/>
+                        <outlet property="imageView" destination="ShP-rZ-Dnz" id="CVh-en-UvA"/>
+                        <outlet property="resultLabel" destination="29H-7V-Blp" id="fa2-Nh-htt"/>
+                        <outlet property="scoreLabel" destination="nCQ-Ec-odz" id="aJ7-dh-VCq"/>
+                        <outlet property="swipeRecognizer" destination="jbV-oq-Ape" id="Oac-Zo-YIZ"/>
                         <segue destination="Jk3-iX-9wL" kind="presentation" identifier="showAddResult" id="G6i-kQ-Z6x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="jbV-oq-Ape"/>
+                <swipeGestureRecognizer direction="right" id="jbV-oq-Ape">
+                    <connections>
+                        <action selector="nextPerson:" destination="BYZ-38-t0r" id="oQY-TO-eab"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-157" y="280"/>
         </scene>
