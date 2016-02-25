@@ -1,25 +1,274 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="TRd-lb-Cxq">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--The Name Game-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="GameViewController" customModule="TheNameGame" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4/5 (80%)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nCQ-Ec-odz">
+                                <rect key="frame" x="16" y="72" width="288" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="ErU-JL-oQi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Georgia-Bold" family="Georgia" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oei-Gp-cN7">
+                                <rect key="frame" x="16" y="436" width="288" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="le6-9d-pYD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
+                                <state key="normal" title="Choice 2" backgroundImage="CorrectButton">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ShP-rZ-Dnz">
+                                <rect key="frame" x="16" y="104" width="288" height="248"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nf9-m2-7kY">
+                                <rect key="frame" x="16" y="480" width="288" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="juw-wm-zAm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
+                                <state key="normal" title="Choice 3" backgroundImage="WrongButton">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZT-zj-pfA">
+                                <rect key="frame" x="16" y="524" width="288" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="RtL-Eu-jWZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
+                                <state key="normal" title="Choice 4" backgroundImage="NeutralButton">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😖 - Swipe Right to Continue" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29H-7V-Blp">
+                                <rect key="frame" x="16" y="360" width="288" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="t5Q-8h-jB4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n5V-HL-5iv">
+                                <rect key="frame" x="16" y="392" width="288" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="llb-Lj-PfL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
+                                <state key="normal" title="Choice 1" backgroundImage="NeutralButton">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Oei-Gp-cN7" secondAttribute="trailing" id="0C2-TU-yP0"/>
+                            <constraint firstItem="29H-7V-Blp" firstAttribute="top" secondItem="ShP-rZ-Dnz" secondAttribute="bottom" constant="8" id="7qD-LL-fdt"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nCQ-Ec-odz" secondAttribute="trailing" id="96O-Ae-Kk7"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="GZT-zj-pfA" secondAttribute="bottom" constant="8" id="Boa-er-kC0"/>
+                            <constraint firstItem="Oei-Gp-cN7" firstAttribute="top" secondItem="n5V-HL-5iv" secondAttribute="bottom" constant="8" id="ExA-nd-EY3"/>
+                            <constraint firstItem="ShP-rZ-Dnz" firstAttribute="top" secondItem="nCQ-Ec-odz" secondAttribute="bottom" constant="8" id="IIN-rD-6iU"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Oei-Gp-cN7" secondAttribute="leading" id="NPL-lB-LoD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Nf9-m2-7kY" secondAttribute="trailing" id="PwG-R4-1Q9"/>
+                            <constraint firstItem="nCQ-Ec-odz" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="Ubg-5B-Qfx"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Nf9-m2-7kY" secondAttribute="leading" id="XXU-mW-QMa"/>
+                            <constraint firstItem="n5V-HL-5iv" firstAttribute="top" secondItem="29H-7V-Blp" secondAttribute="bottom" constant="8" id="aGN-e0-DCo"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="n5V-HL-5iv" secondAttribute="trailing" id="bUS-xy-Ax6"/>
+                            <constraint firstItem="GZT-zj-pfA" firstAttribute="top" secondItem="Nf9-m2-7kY" secondAttribute="bottom" constant="8" id="c0e-X3-frb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="29H-7V-Blp" secondAttribute="trailing" id="cAt-7x-VTn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GZT-zj-pfA" secondAttribute="trailing" id="daN-LH-m76"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="GZT-zj-pfA" secondAttribute="leading" id="drP-nE-eJD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ShP-rZ-Dnz" secondAttribute="trailing" id="fa9-1Y-CS7"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="ShP-rZ-Dnz" secondAttribute="leading" id="hrV-7S-R23"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="29H-7V-Blp" secondAttribute="leading" id="rQS-oY-zty"/>
+                            <constraint firstItem="Nf9-m2-7kY" firstAttribute="top" secondItem="Oei-Gp-cN7" secondAttribute="bottom" constant="8" id="sG2-3b-9y9"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="n5V-HL-5iv" secondAttribute="leading" id="yWv-cN-bb3"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="nCQ-Ec-odz" secondAttribute="leading" id="zJ7-5j-AIH"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="jbV-oq-Ape" appends="YES" id="Jan-m6-oOX"/>
+                        </connections>
                     </view>
+                    <navigationItem key="navigationItem" title="The Name Game" id="hBh-5P-9SK">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="0IL-cF-YB8"/>
+                        <barButtonItem key="leftBarButtonItem" title="Reset" id="ouu-ee-Bya"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="gzt-wt-C8C">
+                            <connections>
+                                <segue destination="sJl-fx-jNx" kind="show" id="UPf-ly-iwm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <segue destination="Jk3-iX-9wL" kind="presentation" identifier="showAddResult" id="G6i-kQ-Z6x"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="jbV-oq-Ape"/>
             </objects>
+            <point key="canvasLocation" x="-157" y="280"/>
+        </scene>
+        <!--New Person-->
+        <scene sceneID="bRK-qp-Ru5">
+            <objects>
+                <viewController id="sJl-fx-jNx" customClass="AddPersonViewController" customModule="TheNameGame" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ffF-wX-ywx"/>
+                        <viewControllerLayoutGuide type="bottom" id="iZu-Ex-Nf1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ChM-kk-V90">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="D9a-cZ-Jja">
+                                <rect key="frame" x="16" y="72" width="288" height="387"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="knt-j8-61c">
+                                <rect key="frame" x="16" y="505" width="288" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="NWb-QO-tcP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
+                                <state key="normal" title=" Select a Picture 📸" backgroundImage="NeutralButton">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PUP-TS-vgd">
+                                <rect key="frame" x="16" y="467" width="288" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="uBv-fm-DYR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="knt-j8-61c" firstAttribute="top" secondItem="PUP-TS-vgd" secondAttribute="bottom" constant="8" id="09U-Jg-YYY"/>
+                            <constraint firstItem="PUP-TS-vgd" firstAttribute="top" secondItem="D9a-cZ-Jja" secondAttribute="bottom" constant="8" id="3aO-Gv-kMA"/>
+                            <constraint firstItem="D9a-cZ-Jja" firstAttribute="top" secondItem="ffF-wX-ywx" secondAttribute="bottom" constant="8" id="4UT-42-CL0"/>
+                            <constraint firstItem="D9a-cZ-Jja" firstAttribute="top" secondItem="ffF-wX-ywx" secondAttribute="bottom" constant="42" id="6LH-u6-iD9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="knt-j8-61c" secondAttribute="trailing" id="91q-XQ-s7P"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="PUP-TS-vgd" secondAttribute="trailing" id="PJ1-ef-SVw"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="D9a-cZ-Jja" secondAttribute="leading" id="Zyf-Tz-fbU"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="knt-j8-61c" secondAttribute="leading" id="cGC-Pu-wVU"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="PUP-TS-vgd" secondAttribute="leading" id="cSC-NE-Zc5"/>
+                            <constraint firstItem="iZu-Ex-Nf1" firstAttribute="top" secondItem="knt-j8-61c" secondAttribute="bottom" constant="8" id="fMI-CC-QwQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="D9a-cZ-Jja" secondAttribute="trailing" id="sxL-8y-r9N"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="6LH-u6-iD9"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Person" id="AtF-cq-akl">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="mXL-Pb-uK0"/>
+                    </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gd7-4o-ufL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="223" y="280"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="wrq-05-a0x">
+            <objects>
+                <navigationController id="TRd-lb-Cxq" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xNE-bZ-L27">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Gpc-iS-hWJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G4z-Zj-aaf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-519" y="280"/>
+        </scene>
+        <!--Upload Result View Controller-->
+        <scene sceneID="a9u-2K-Khi">
+            <objects>
+                <viewController id="Jk3-iX-9wL" customClass="UploadResultViewController" customModule="TheNameGame" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rMS-Ru-lBt"/>
+                        <viewControllerLayoutGuide type="bottom" id="eZM-QS-0Rd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bDV-w7-q2B">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😜 - Swipe Down to Dismiss" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o5O-va-7mt">
+                                <rect key="frame" x="16" y="28" width="288" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="Rcf-oI-7gw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a70-8p-BCP">
+                                <rect key="frame" x="16" y="60" width="288" height="444"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joe Bob was successfully added to the Name Game!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="aju-yA-tRe">
+                                <rect key="frame" x="16" y="512" width="288" height="48"/>
+                                <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="o5O-va-7mt" firstAttribute="top" secondItem="rMS-Ru-lBt" secondAttribute="bottom" constant="8" id="89G-Z2-0mO"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="a70-8p-BCP" secondAttribute="leading" id="C1H-AG-A7Q"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="o5O-va-7mt" secondAttribute="leading" id="Dd0-qJ-rXt"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="a70-8p-BCP" secondAttribute="trailing" id="Kql-0T-AOZ"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="aju-yA-tRe" secondAttribute="leading" id="Lqj-Ym-3PV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="o5O-va-7mt" secondAttribute="trailing" id="VXD-a5-fqn"/>
+                            <constraint firstItem="a70-8p-BCP" firstAttribute="top" secondItem="o5O-va-7mt" secondAttribute="bottom" constant="8" id="Wxj-dU-RPg"/>
+                            <constraint firstItem="eZM-QS-0Rd" firstAttribute="top" secondItem="aju-yA-tRe" secondAttribute="bottom" constant="8" id="bc6-ao-2hV"/>
+                            <constraint firstItem="aju-yA-tRe" firstAttribute="top" secondItem="a70-8p-BCP" secondAttribute="bottom" constant="8" id="enP-63-ivh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aju-yA-tRe" secondAttribute="trailing" id="zU7-yF-3V8"/>
+                        </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="LPW-Ze-1k5" appends="YES" id="lLq-rY-iYm"/>
+                        </connections>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gfJ-VB-qOK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="LPW-Ze-1k5"/>
+            </objects>
+            <point key="canvasLocation" x="-157" y="945"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="CorrectButton" width="268" height="55"/>
+        <image name="NeutralButton" width="268" height="55"/>
+        <image name="WrongButton" width="268" height="55"/>
+    </resources>
 </document>
