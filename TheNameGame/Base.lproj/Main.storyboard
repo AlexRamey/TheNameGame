@@ -181,6 +181,9 @@
                                 <state key="normal" title=" Select a Picture 📸" backgroundImage="NeutralButton">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="selectPhoto:" destination="sJl-fx-jNx" eventType="touchUpInside" id="svy-uH-0pF"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PUP-TS-vgd">
                                 <rect key="frame" x="16" y="467" width="288" height="30"/>
@@ -192,6 +195,7 @@
                             </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="knt-j8-61c" firstAttribute="top" secondItem="PUP-TS-vgd" secondAttribute="bottom" constant="8" id="09U-Jg-YYY"/>
                             <constraint firstItem="PUP-TS-vgd" firstAttribute="top" secondItem="D9a-cZ-Jja" secondAttribute="bottom" constant="8" id="3aO-Gv-kMA"/>
@@ -210,13 +214,30 @@
                                 <exclude reference="6LH-u6-iD9"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="40n-eE-w9l" appends="YES" id="HbM-Yx-EKx"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="New Person" id="AtF-cq-akl">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="mXL-Pb-uK0"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="mXL-Pb-uK0">
+                            <connections>
+                                <action selector="submitForm:" destination="sJl-fx-jNx" id="d98-27-Vbf"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="doneBtn" destination="mXL-Pb-uK0" id="jU6-MB-9rH"/>
+                        <outlet property="nameField" destination="PUP-TS-vgd" id="u1N-Ha-SQz"/>
+                        <outlet property="photoField" destination="D9a-cZ-Jja" id="WBj-Zq-aqb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gd7-4o-ufL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="40n-eE-w9l">
+                    <connections>
+                        <action selector="tapRecieved:" destination="sJl-fx-jNx" id="bev-4L-6qJ"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="223" y="280"/>
         </scene>
