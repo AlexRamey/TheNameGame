@@ -84,7 +84,9 @@ class DataStore: NSObject {
     func threeRandomNamesOtherThan(name:String)->(String,String,String){
         var otherNames:[String] = []
         for tuple in self.gamePeople{
-            otherNames.append(tuple.1)
+            if tuple.1 != name{
+                otherNames.append(tuple.1)
+            }
         }
         otherNames.shuffleInPlace()
         switch(otherNames.count){
