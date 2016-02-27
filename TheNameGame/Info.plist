@@ -49,7 +49,7 @@
         <false/>
         <key>NSExceptionDomains</key>
         <dict>
-            <key>ec2-54-172-14-127.compute-1.amazonaws.com</key>
+            <key>ec2-54-86-73-83.compute-1.amazonaws.com</key>
             <dict>
                 <key>NSIncludesSubdomains</key>
                 <true/>

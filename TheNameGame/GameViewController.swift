@@ -22,6 +22,8 @@ class GameViewController: UIViewController {
     var viewControllerState = GameState.QuestionMode
     var numCorrectResponses:Int = 0
     var numIncorrectResponses:Int = 0
+    let dataStore:DataStore = DataStore()
+    var isGameOver:Bool = false
     // Question Mode Specific Properties
     var choices:[String]=[]
     var correctChoice:Int = -1
@@ -33,6 +35,8 @@ class GameViewController: UIViewController {
     var formNameField:String?
     
     // MARK: IBOutlet Properties
+    // NavBar Reset Button
+    @IBOutlet weak var resetBtn:UIBarButtonItem!
     // Labels
     @IBOutlet weak var scoreLabel:UILabel!
     @IBOutlet weak var resultLabel:UILabel!
@@ -45,6 +49,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var choiceFour: UIButton!
     // Swipe Gesture Recognizer
     @IBOutlet weak var swipeRecognizer:UISwipeGestureRecognizer!
+    // UIActivityIndicatorView
+    @IBOutlet weak var activityIndicator:UIActivityIndicatorView!
     
     // MARK: View Controller Code
     required init?(coder aDecoder: NSCoder) {
@@ -61,39 +67,7 @@ class GameViewController: UIViewController {
         choiceThree.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
         choiceFour.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
         
-        self.loadNextPerson()
-        self.configureViewForState()
-        
-        // DRIVER CODE - getPeople()
-        HttpServiceClient().getPeople { (error, people) -> Void in
-            if (error == nil){
-                print(people)
-            }else{
-                print(error)
-            }
-        }
-        // END DRIVER
-        
-        // DRIVER CODE - getImage()
-        HttpServiceClient().getImage(15) { (error, encodedImage) -> Void in
-            if (error == nil){
-                if (encodedImage != nil){
-                    // Note, + signs in the base64 encoding got converted to spaces
-                    // during the HTTP POST to the DB. Convert back here before decoding.
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        let fixedEncoding = encodedImage!.stringByReplacingOccurrencesOfString(" ", withString: "+")
-                        if let data = NSData(base64EncodedString:fixedEncoding, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters){
-                            print("test")
-                            self.imageView.image = UIImage(data: data)
-                        }
-                    })
-                }
-            }else{
-                print(error)
-            }
-        }
-        // END DRIVER
-        
+        self.resetGame(self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -102,10 +76,51 @@ class GameViewController: UIViewController {
     }
 
     func loadNextPerson(){
-        // Hard-coded for now
+        /* Hard-coded for now
         self.choices = ["Michaelangelo","Leonardo","Raphael","Donatello"]
         self.personImage = UIImage(imageLiteral: "donnie")
         self.correctChoice = 3
+        */
+        self.activityIndicator.startAnimating()
+        self.swipeRecognizer.enabled = false
+        self.resetBtn.enabled = false
+        self.dataStore.nextPerson { (error, name, picture) -> Void in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if (error != nil){
+                    if (error!.code == 444){
+                        self.isGameOver = true
+                        let alert = UIAlertController(title: "Alert", message: "You've seen everyone!", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    else if (self.viewControllerState == .ResultMode){
+                        let alert = UIAlertController(title: "Alert", message: "Failed to get next person! Try swiping right again.", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    else{
+                        let alert = UIAlertController(title: "Alert", message: "Failed to get next person! Try resetting again.", preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    self.swipeRecognizer.enabled = true
+                }else{
+                    self.personImage = picture
+                    if (picture == nil){
+                        print("nil image!")
+                    }
+                    let wrongTriple:(String,String,String) = self.dataStore.threeRandomNamesOtherThan(name)
+                    self.choices = [wrongTriple.0, wrongTriple.1, wrongTriple.2, name]
+                    self.choices.shuffleInPlace()
+                    self.correctChoice = self.choices.indexOf(name)!
+                    self.viewControllerState = .QuestionMode
+                    self.configureViewForState()
+                }
+                self.resetBtn.enabled = true
+                self.activityIndicator.stopAnimating()
+            })
+        }
+        
     }
     
     func configureViewForState(){
@@ -199,6 +214,12 @@ class GameViewController: UIViewController {
     
     // Player selects a multiple choice name option
     @IBAction func choiceSelected(sender: AnyObject){
+        
+        if (self.activityIndicator.isAnimating() || self.isGameOver){
+            // ignore these button presses during a load or when game is already over
+            return
+        }
+        
         let btn:UIButton = sender as! UIButton
         
         switch btn.frame.origin.y{
@@ -220,16 +241,28 @@ class GameViewController: UIViewController {
     @IBAction func resetGame(sender: AnyObject){
         self.numCorrectResponses = 0
         self.numIncorrectResponses = 0
-        self.loadNextPerson()
-        self.viewControllerState = .QuestionMode
-        self.configureViewForState()
+        self.swipeRecognizer.enabled = false
+        self.isGameOver = false
+        self.activityIndicator.startAnimating()
+        self.resetBtn.enabled = false
+        self.swipeRecognizer.enabled = false
+        self.dataStore.reloadData { (error) -> Void in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if (error != nil){
+                    let alert = UIAlertController(title: "Error", message: "Failed to load data! Please try again by hitting the reset button.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+                self.resetBtn.enabled = true
+                self.activityIndicator.stopAnimating()
+                self.loadNextPerson()
+            })
+        }
     }
     
-    // Player swipes down
+    // Player swipes right
     @IBAction func nextPerson(sender: AnyObject){
         self.loadNextPerson()
-        self.viewControllerState = .QuestionMode
-        self.configureViewForState()
     }
 
 }

@@ -91,6 +91,13 @@
                                     <action selector="choiceSelected:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TyR-T1-xro"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="wCm-bE-kFJ">
+                                <rect key="frame" x="142" y="209" width="37" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="37" id="ATE-7C-akg"/>
+                                    <constraint firstAttribute="height" constant="37" id="m2c-bU-cQM"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
@@ -98,6 +105,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Oei-Gp-cN7" secondAttribute="trailing" id="0C2-TU-yP0"/>
                             <constraint firstItem="29H-7V-Blp" firstAttribute="top" secondItem="ShP-rZ-Dnz" secondAttribute="bottom" constant="8" id="7qD-LL-fdt"/>
                             <constraint firstAttribute="trailingMargin" secondItem="nCQ-Ec-odz" secondAttribute="trailing" id="96O-Ae-Kk7"/>
+                            <constraint firstItem="wCm-bE-kFJ" firstAttribute="centerX" secondItem="ShP-rZ-Dnz" secondAttribute="centerX" id="B0C-qK-F7B"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="GZT-zj-pfA" secondAttribute="bottom" constant="8" id="Boa-er-kC0"/>
                             <constraint firstItem="Oei-Gp-cN7" firstAttribute="top" secondItem="n5V-HL-5iv" secondAttribute="bottom" constant="8" id="ExA-nd-EY3"/>
                             <constraint firstItem="ShP-rZ-Dnz" firstAttribute="top" secondItem="nCQ-Ec-odz" secondAttribute="bottom" constant="8" id="IIN-rD-6iU"/>
@@ -111,6 +119,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="29H-7V-Blp" secondAttribute="trailing" id="cAt-7x-VTn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="GZT-zj-pfA" secondAttribute="trailing" id="daN-LH-m76"/>
                             <constraint firstAttribute="leadingMargin" secondItem="GZT-zj-pfA" secondAttribute="leading" id="drP-nE-eJD"/>
+                            <constraint firstItem="wCm-bE-kFJ" firstAttribute="centerY" secondItem="ShP-rZ-Dnz" secondAttribute="centerY" id="ekR-u0-w0e"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ShP-rZ-Dnz" secondAttribute="trailing" id="fa9-1Y-CS7"/>
                             <constraint firstAttribute="leadingMargin" secondItem="ShP-rZ-Dnz" secondAttribute="leading" id="hrV-7S-R23"/>
                             <constraint firstAttribute="leadingMargin" secondItem="29H-7V-Blp" secondAttribute="leading" id="rQS-oY-zty"/>
@@ -137,11 +146,13 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="wCm-bE-kFJ" id="Wc6-Fp-p4d"/>
                         <outlet property="choiceFour" destination="GZT-zj-pfA" id="0Pk-Fl-Kx6"/>
                         <outlet property="choiceOne" destination="n5V-HL-5iv" id="X2C-Y3-02Y"/>
                         <outlet property="choiceThree" destination="Nf9-m2-7kY" id="PRq-Ul-oSb"/>
                         <outlet property="choiceTwo" destination="Oei-Gp-cN7" id="FnN-v1-dHt"/>
                         <outlet property="imageView" destination="ShP-rZ-Dnz" id="CVh-en-UvA"/>
+                        <outlet property="resetBtn" destination="ouu-ee-Bya" id="37g-Jp-GST"/>
                         <outlet property="resultLabel" destination="29H-7V-Blp" id="fa2-Nh-htt"/>
                         <outlet property="scoreLabel" destination="nCQ-Ec-odz" id="aJ7-dh-VCq"/>
                         <outlet property="swipeRecognizer" destination="jbV-oq-Ape" id="Oac-Zo-YIZ"/>

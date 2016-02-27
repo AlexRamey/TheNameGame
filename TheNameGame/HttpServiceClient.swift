@@ -10,7 +10,7 @@ import UIKit
 
 class HttpServiceClient: NSObject {
 
-    let rdsEndPoint = "http://ec2-54-172-14-127.compute-1.amazonaws.com/service.php";
+    let rdsEndPoint = "http://ec2-54-86-73-83.compute-1.amazonaws.com/service.php";
     
     override init() {
         super.init()

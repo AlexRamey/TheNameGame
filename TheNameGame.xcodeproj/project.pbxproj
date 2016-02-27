@@ -15,6 +15,7 @@
 		D0B94DD71C7EBD22002D8FE7 /* AddPersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B94DD61C7EBD22002D8FE7 /* AddPersonViewController.swift */; };
 		D0B94DD91C7EBD51002D8FE7 /* UploadResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B94DD81C7EBD51002D8FE7 /* UploadResultViewController.swift */; };
 		D0B94DDB1C8133BC002D8FE7 /* HttpServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B94DDA1C8133BC002D8FE7 /* HttpServiceClient.swift */; };
+		D0B94DDD1C82208B002D8FE7 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B94DDC1C82208B002D8FE7 /* DataStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		D0B94DD61C7EBD22002D8FE7 /* AddPersonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPersonViewController.swift; sourceTree = "<group>"; };
 		D0B94DD81C7EBD51002D8FE7 /* UploadResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadResultViewController.swift; sourceTree = "<group>"; };
 		D0B94DDA1C8133BC002D8FE7 /* HttpServiceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpServiceClient.swift; sourceTree = "<group>"; };
+		D0B94DDC1C82208B002D8FE7 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				D0B94DC41C7CAEEA002D8FE7 /* AppDelegate.swift */,
 				D0B94DC61C7CAEEA002D8FE7 /* GameViewController.swift */,
+				D0B94DDC1C82208B002D8FE7 /* DataStore.swift */,
 				D0B94DC81C7CAEEA002D8FE7 /* Main.storyboard */,
 				D0B94DD61C7EBD22002D8FE7 /* AddPersonViewController.swift */,
 				D0B94DDA1C8133BC002D8FE7 /* HttpServiceClient.swift */,
@@ -145,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0B94DD91C7EBD51002D8FE7 /* UploadResultViewController.swift in Sources */,
+				D0B94DDD1C82208B002D8FE7 /* DataStore.swift in Sources */,
 				D0B94DDB1C8133BC002D8FE7 /* HttpServiceClient.swift in Sources */,
 				D0B94DC71C7CAEEA002D8FE7 /* GameViewController.swift in Sources */,
 				D0B94DC51C7CAEEA002D8FE7 /* AppDelegate.swift in Sources */,
