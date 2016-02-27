@@ -10,10 +10,27 @@ import UIKit
 
 class UploadResultViewController: UIViewController {
 
+    // MARK - IBOutlets
+    @IBOutlet weak var photoView:UIImageView!
+    @IBOutlet weak var resultLabel:UILabel!
+    
+    var photo:UIImage? = nil
+    var resultText:String? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        
+        // these data properties were already set by the game view controller
+        // we need this code to run on the main thread b/c it affects the UI
+        // we need to explicity dispatch it to the main thread because otherwise
+        // this code would run on a background thread via a completion block
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.photoView.clipsToBounds = true
+            self.photoView.contentMode = UIViewContentMode.ScaleAspectFill
+            self.resultLabel.text = self.resultText
+            self.photoView.image = self.photo
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,6 +38,10 @@ class UploadResultViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK - IBActions
+    @IBAction func dismissResults(sender: AnyObject){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 
     /*
     // MARK: - Navigation

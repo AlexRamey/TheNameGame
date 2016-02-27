@@ -28,6 +28,9 @@ class GameViewController: UIViewController {
     var personImage:UIImage? = nil
     // Result Mode Specific Properties
     var userChoice:Int = -1
+    // Holders for form field values during pending POST
+    var formPhotoField:UIImage?
+    var formNameField:String?
     
     // MARK: IBOutlet Properties
     // Labels
@@ -57,7 +60,6 @@ class GameViewController: UIViewController {
         choiceTwo.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
         choiceThree.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
         choiceFour.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
-        
         
         self.loadNextPerson()
         self.configureViewForState()
@@ -134,6 +136,32 @@ class GameViewController: UIViewController {
         self.choiceTwo.enabled = isEnabled
         self.choiceThree.enabled = isEnabled
         self.choiceFour.enabled = isEnabled
+    }
+    
+    // called by AddPersonViewController to store its form fields,
+    // which this controller can then pass to the UploadResultViewController
+    // when the post response comes back form the server
+    func setFormFields(photo: UIImage?, name: String?){
+        self.formPhotoField = photo
+        self.formNameField = name
+    }
+    
+    // display the UploadResultViewController modally to notify user of result
+    func showPostResults(success:Bool){
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        let vc = storyboard.instantiateViewControllerWithIdentifier("postResultsVC") as! UploadResultViewController
+        var resultText:String? = nil
+        if (success){
+            resultText = "Successfully added \(self.formNameField!) to the name game!☺️"
+        } else{
+            resultText = "Failed to add \(self.formNameField!) to the name game!😡"
+        }
+        
+        vc.resultText = resultText
+        vc.photo = self.formPhotoField
+        
+        self.presentViewController(vc, animated: true, completion: nil)
     }
     
     // Mark: IBActions

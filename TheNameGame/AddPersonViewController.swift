@@ -128,17 +128,24 @@ class AddPersonViewController: UIViewController, UITextFieldDelegate, UIImagePic
     
     // post the form to the database
     @IBAction func submitForm(sender:AnyObject){
-        print("sumbit form")
+        // Fire off the post attempt
+        let client = HttpServiceClient()
+        // snapshot the navController as it won't be available as a property when this completion
+        // block fires since we pop this view controller from the nav stack immediately
+        let navController = self.navigationController!
+        client.postData(self.photoField.image!, name: self.nameField.text!) { (error) -> Void in
+            if let vc = navController.viewControllers[0] as? GameViewController{
+                // on completion, have the game screen present the post results screen
+                vc.showPostResults(error == nil)
+            }
+        }
+        
+        // store the form fields on the game view controller so it can later pass them to the post results screen
+        if let vc = navController.viewControllers[0] as? GameViewController{
+            vc.setFormFields(self.photoField.image, name: self.nameField.text)
+        }
+        
+        // and then pop this view controller
+        self.navigationController!.popViewControllerAnimated(true)
     }
-    
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-    }
-    */
-    
 }

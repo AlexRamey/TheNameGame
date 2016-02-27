@@ -145,7 +145,6 @@
                         <outlet property="resultLabel" destination="29H-7V-Blp" id="fa2-Nh-htt"/>
                         <outlet property="scoreLabel" destination="nCQ-Ec-odz" id="aJ7-dh-VCq"/>
                         <outlet property="swipeRecognizer" destination="jbV-oq-Ape" id="Oac-Zo-YIZ"/>
-                        <segue destination="Jk3-iX-9wL" kind="presentation" identifier="showAddResult" id="G6i-kQ-Z6x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -261,7 +260,7 @@
         <!--Upload Result View Controller-->
         <scene sceneID="a9u-2K-Khi">
             <objects>
-                <viewController id="Jk3-iX-9wL" customClass="UploadResultViewController" customModule="TheNameGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="postResultsVC" id="Jk3-iX-9wL" customClass="UploadResultViewController" customModule="TheNameGame" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rMS-Ru-lBt"/>
                         <viewControllerLayoutGuide type="bottom" id="eZM-QS-0Rd"/>
@@ -284,6 +283,9 @@
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joe Bob was successfully added to the Name Game!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="aju-yA-tRe">
                                 <rect key="frame" x="16" y="512" width="288" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="qyH-kV-MPr"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="21"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -308,9 +310,17 @@
                         </connections>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="photoView" destination="a70-8p-BCP" id="Lq9-hj-a3Z"/>
+                        <outlet property="resultLabel" destination="aju-yA-tRe" id="ZJy-0a-tWC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gfJ-VB-qOK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer direction="right" id="LPW-Ze-1k5"/>
+                <swipeGestureRecognizer direction="down" id="LPW-Ze-1k5">
+                    <connections>
+                        <action selector="dismissResults:" destination="Jk3-iX-9wL" id="tIG-Uw-oao"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-157" y="945"/>
         </scene>
