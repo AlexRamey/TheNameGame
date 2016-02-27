@@ -63,6 +63,35 @@ class GameViewController: UIViewController {
         
         self.loadNextPerson()
         self.configureViewForState()
+        
+        // DRIVER CODE - getPeople()
+        HttpServiceClient().getPeople { (error, people) -> Void in
+            if (error == nil){
+                print(people)
+            }else{
+                print(error)
+            }
+        }
+        // END DRIVER
+        
+        // DRIVER CODE - getImage()
+        HttpServiceClient().getImage(15) { (error, encodedImage) -> Void in
+            if (error == nil){
+                print(encodedImage!)
+                if (encodedImage != nil){
+                    print("ok")
+                    // NOT WORKING RIGHT HERE
+                    if let data = NSData(base64EncodedString:encodedImage!, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters){
+                        print("test")
+                        self.imageView.image = UIImage(data: data)
+                    }
+                }
+            }else{
+                print(error)
+            }
+        }
+        // END DRIVER
+        
     }
 
     override func didReceiveMemoryWarning() {

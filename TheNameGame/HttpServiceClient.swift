@@ -24,7 +24,7 @@ class HttpServiceClient: NSObject {
         if let imageData = UIImageJPEGRepresentation(image, 0.5)
         {
             // Create your request string with parameter name as defined in PHP file
-            let requestString: String = "name=\(name)&imageData=\(imageData.base64EncodedStringWithOptions(.EncodingEndLineWithCarriageReturn))"
+            let requestString: String = "name=\(name)&imageData=\(imageData.base64EncodedStringWithOptions([]))"
             // Create Data from request
             let requestData: NSData = NSData(bytes: String(requestString.utf8), length: requestString.characters.count)
             // Set content-type
@@ -59,4 +59,63 @@ class HttpServiceClient: NSObject {
         }
     }
     
+    func getPeople(completion: (error: NSError?, people:NSDictionary?) -> Void){
+        let request = NSMutableURLRequest(URL: (NSURL(string:self.rdsEndPoint))!)
+        let session = NSURLSession.sharedSession()
+        request.HTTPMethod = "GET"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
+        
+        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            print("Response: \(response)")
+            print("Error: \(error)")
+            if (data != nil){
+                var jsonObject:NSDictionary? = nil
+                do{
+                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
+                }catch{
+                    print("failed to convert json")
+                }
+                if (jsonObject != nil)
+                {
+                    completion(error:nil, people:jsonObject)
+                }else{
+                    completion(error:NSError(domain: "HTTP GET", code: 471, userInfo: nil), people:nil);
+                }
+            }else{
+                completion(error:NSError(domain: "HTTP GET", code: 472, userInfo: nil), people:nil);
+            }
+        })
+            
+        task.resume()
+    }
+    
+    func getImage(personID:Int, completion: (error: NSError?, encodedImage:String?) -> Void){
+        let request = NSMutableURLRequest(URL: (NSURL(string:self.rdsEndPoint+"?id=\(personID)"))!)
+        let session = NSURLSession.sharedSession()
+        request.HTTPMethod = "GET"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
+        
+        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            print("Response: \(response)")
+            print("Error: \(error)")
+            if (data != nil){
+                var jsonObject:NSDictionary? = nil
+                do{
+                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
+                }catch{
+                    print("failed to convert json")
+                }
+                if (jsonObject != nil)
+                {
+                    completion(error:nil, encodedImage:(jsonObject!)["data"] as? String)
+                }else{
+                    completion(error:NSError(domain: "HTTP GET", code: 471, userInfo: nil), encodedImage:nil);
+                }
+            }else{
+                completion(error:NSError(domain: "HTTP GET", code: 472, userInfo: nil), encodedImage:nil);
+            }
+        })
+        
+        task.resume()
+    }
 }
