@@ -77,14 +77,16 @@ class GameViewController: UIViewController {
         // DRIVER CODE - getImage()
         HttpServiceClient().getImage(15) { (error, encodedImage) -> Void in
             if (error == nil){
-                print(encodedImage!)
                 if (encodedImage != nil){
-                    print("ok")
-                    // NOT WORKING RIGHT HERE
-                    if let data = NSData(base64EncodedString:encodedImage!, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters){
-                        print("test")
-                        self.imageView.image = UIImage(data: data)
-                    }
+                    // Note, + signs in the base64 encoding got converted to spaces
+                    // during the HTTP POST to the DB. Convert back here before decoding.
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        let fixedEncoding = encodedImage!.stringByReplacingOccurrencesOfString(" ", withString: "+")
+                        if let data = NSData(base64EncodedString:fixedEncoding, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters){
+                            print("test")
+                            self.imageView.image = UIImage(data: data)
+                        }
+                    })
                 }
             }else{
                 print(error)
