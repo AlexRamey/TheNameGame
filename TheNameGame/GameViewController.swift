@@ -66,7 +66,7 @@ class GameViewController: UIViewController {
         choiceTwo.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
         choiceThree.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
         choiceFour.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
-        
+        scoreLabel.text = "No Score Recorded Yet 👻"
         self.resetGame(self)
     }
 
