@@ -9,15 +9,15 @@
 import UIKit
 
 // a nice extension from http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift
-// this allows us to call suffleInPlace on mutable arrays which is super convenient for this app
-extension MutableCollectionType where Index == Int {
+// this allows us to call shuffleInPlace on mutable arrays which is super convenient for this app
+extension MutableCollection where Index == Int {
     /// Shuffle the elements of `self` in-place.
     mutating func shuffleInPlace() {
         // empty and single-element collections don't shuffle
         if count < 2 { return }
         
-        for i in 0..<count - 1 {
-            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+        for i in startIndex ..< endIndex {
+            let j = Int(arc4random_uniform(UInt32(endIndex - i))) + i
             guard i != j else { continue }
             swap(&self[i], &self[j])
         }
@@ -30,11 +30,11 @@ class DataStore: NSObject {
     var gamePeople:[(Int, String)] = []
     var currentIndex = 0
     
-    func reloadData(completion: (error: NSError?) -> Void){
+    func reloadData(_ completion: @escaping (_ error: NSError?) -> Void){
         resetStateInformation()
         HttpServiceClient().getPeople { (error, people) -> Void in
             if (error == nil){
-                if let peopleArray:Array<NSDictionary> = (people!.objectForKey("data") as! [NSDictionary]){
+                if let peopleArray:Array<NSDictionary> = (people!.object(forKey: "data") as? [NSDictionary]){
                     for personDictionary in peopleArray{
                         let key:String = (personDictionary.allKeys[0] as! String)
                         self.gamePeople.append((Int(key)!, personDictionary[key] as! String))
@@ -42,14 +42,14 @@ class DataStore: NSObject {
                     self.gamePeople.shuffleInPlace()
                 }
             }
-            completion(error: error)
+            completion(error)
         }
     }
     
-    func nextPerson(completion:(error:NSError?, name:String, picture:UIImage?)->Void){
+    func nextPerson(_ completion:@escaping (_ error:NSError?, _ name:String, _ picture:UIImage?)->Void){
         // No more people left!
         if (self.currentIndex == self.gamePeople.count){
-            completion(error:NSError(domain: "NoMorePeople", code: 444, userInfo: nil),name:"",picture:nil)
+            completion(NSError(domain: "NoMorePeople", code: 444, userInfo: nil),"",nil)
             return
         }
         
@@ -58,17 +58,17 @@ class DataStore: NSObject {
             if ((error == nil) && (encodedImage != nil)){
                 // Note, + signs in the base64 encoding got converted to spaces
                 // during the HTTP POST to the DB. Convert back here before decoding.
-                let fixedEncoding = encodedImage!.stringByReplacingOccurrencesOfString(" ", withString: "+")
-                if let data = NSData(base64EncodedString:fixedEncoding, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters){
-                    completion(error:nil, name:self.gamePeople[self.currentIndex].1, picture:UIImage(data: data))
+                let fixedEncoding = encodedImage!.replacingOccurrences(of: " ", with: "+")
+                if let data = Data(base64Encoded:fixedEncoding, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters){
+                    completion(nil, self.gamePeople[self.currentIndex].1, UIImage(data: data))
                     self.currentIndex += 1
                 }
                 else
                 {
-                    completion(error:NSError(domain:"ImageFetch", code: 435, userInfo: nil), name:"", picture: nil)
+                    completion(NSError(domain:"ImageFetch", code: 435, userInfo: nil), "", nil)
                 }
             }else{
-                completion(error:NSError(domain:"ImageFetch", code: error?.code ?? 433, userInfo: nil), name:"", picture: nil)
+                completion(NSError(domain:"ImageFetch", code: error?.code ?? 433, userInfo: nil), "", nil)
             }
         }
     }
@@ -81,7 +81,7 @@ class DataStore: NSObject {
     
     
     // useful function for generating the other three choices
-    func threeRandomNamesOtherThan(name:String)->(String,String,String){
+    func threeRandomNamesOtherThan(_ name:String)->(String,String,String){
         var otherNames:[String] = []
         for tuple in self.gamePeople{
             if tuple.1 != name{

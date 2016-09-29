@@ -14,12 +14,12 @@ class GameViewController: UIViewController {
     // State 1 is questionMode, where a user still hasn't selected a choice
     // State 2 is resultMode, where a user is viewing the result of their choice
     enum GameState{
-        case QuestionMode
-        case ResultMode
+        case questionMode
+        case resultMode
     }
     
     // MARK: General Properties
-    var viewControllerState = GameState.QuestionMode
+    var viewControllerState = GameState.questionMode
     var numCorrectResponses:Int = 0
     var numIncorrectResponses:Int = 0
     let dataStore:DataStore = DataStore()
@@ -60,12 +60,12 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view
-        self.imageView.contentMode = UIViewContentMode.ScaleAspectFill
+        self.imageView.contentMode = UIViewContentMode.scaleAspectFill
         self.imageView.clipsToBounds = true
-        choiceOne.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
-        choiceTwo.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
-        choiceThree.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
-        choiceFour.setBackgroundImage(UIImage(imageLiteral: "NeutralButton"), forState: .Normal)
+        choiceOne.setBackgroundImage(UIImage(imageLiteralResourceName: "NeutralButton"), for: UIControlState())
+        choiceTwo.setBackgroundImage(UIImage(imageLiteralResourceName: "NeutralButton"), for: UIControlState())
+        choiceThree.setBackgroundImage(UIImage(imageLiteralResourceName: "NeutralButton"), for: UIControlState())
+        choiceFour.setBackgroundImage(UIImage(imageLiteralResourceName: "NeutralButton"), for: UIControlState())
         scoreLabel.text = "No Score Recorded Yet 👻"
         self.resetGame(self)
     }
@@ -82,28 +82,28 @@ class GameViewController: UIViewController {
         self.correctChoice = 3
         */
         self.activityIndicator.startAnimating()
-        self.swipeRecognizer.enabled = false
-        self.resetBtn.enabled = false
+        self.swipeRecognizer.isEnabled = false
+        self.resetBtn.isEnabled = false
         self.dataStore.nextPerson { (error, name, picture) -> Void in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 if (error != nil){
                     if (error!.code == 444){
                         self.isGameOver = true
-                        let alert = UIAlertController(title: "Alert", message: "You've seen everyone!", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        let alert = UIAlertController(title: "Alert", message: "You've seen everyone!", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
-                    else if (self.viewControllerState == .ResultMode){
-                        let alert = UIAlertController(title: "Alert", message: "Failed to get next person! Try swiping right again.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                    else if (self.viewControllerState == .resultMode){
+                        let alert = UIAlertController(title: "Alert", message: "Failed to get next person! Try swiping right again.", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
                     else{
-                        let alert = UIAlertController(title: "Alert", message: "Failed to get next person! Try resetting again.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                        let alert = UIAlertController(title: "Alert", message: "Failed to get next person! Try resetting again.", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
                     }
-                    self.swipeRecognizer.enabled = true
+                    self.swipeRecognizer.isEnabled = true
                 }else{
                     self.personImage = picture
                     if (picture == nil){
@@ -112,11 +112,11 @@ class GameViewController: UIViewController {
                     let wrongTriple:(String,String,String) = self.dataStore.threeRandomNamesOtherThan(name)
                     self.choices = [wrongTriple.0, wrongTriple.1, wrongTriple.2, name]
                     self.choices.shuffleInPlace()
-                    self.correctChoice = self.choices.indexOf(name)!
-                    self.viewControllerState = .QuestionMode
+                    self.correctChoice = self.choices.index(of: name)!
+                    self.viewControllerState = .questionMode
                     self.configureViewForState()
                 }
-                self.resetBtn.enabled = true
+                self.resetBtn.isEnabled = true
                 self.activityIndicator.stopAnimating()
             })
         }
@@ -128,75 +128,73 @@ class GameViewController: UIViewController {
         var buttons:[UIButton] = [self.choiceOne, self.choiceTwo, self.choiceThree, self.choiceFour]
         
         switch self.viewControllerState{
-        case .QuestionMode:
+        case .questionMode:
             if ((self.numCorrectResponses + self.numIncorrectResponses) == 0){
                 scoreLabel.text = "No Score Recorded Yet 👻"
             }
             self.imageView.image = self.personImage
             self.resultLabel.text = ""
             
-            var index:Int
-            for index = 0; index < buttons.count; ++index{
-                buttons[index].setTitle(self.choices[index], forState: .Normal)
-                buttons[index].setTitle(self.choices[index], forState: .Disabled)
+            for index in 0..<buttons.count{
+                buttons[index].setTitle(self.choices[index], for: UIControlState())
+                buttons[index].setTitle(self.choices[index], for: .disabled)
             }
             
             self.setButtonsEnabled(true)
-            self.swipeRecognizer.enabled = false
+            self.swipeRecognizer.isEnabled = false
             
             
-        case .ResultMode:
+        case .resultMode:
             if (userChoice == correctChoice){
-                self.numCorrectResponses++
+                self.numCorrectResponses += 1
                 self.resultLabel.text = "😁 - Swipe Right to Continue"
             }
             else{
-                self.numIncorrectResponses++
+                self.numIncorrectResponses += 1
                 self.resultLabel.text = "😖 - Swipe Right to Continue"
             }
             let percentageCorrect:Float = ((Float)(self.numCorrectResponses) / ((Float)(self.numCorrectResponses + self.numIncorrectResponses))) * 100
             let percentageCorrectString = NSString(format: "%.1f", percentageCorrect)
             self.scoreLabel.text = "\(self.numCorrectResponses)/\(self.numCorrectResponses+self.numIncorrectResponses) (\(percentageCorrectString)%)"
             
-            var index:Int
-            for index = 0; index < buttons.count; ++index{
+            for index in 0..<buttons.count{
                 if (index == correctChoice){
-                    buttons[index].setBackgroundImage(UIImage(imageLiteral: "CorrectButton"), forState: .Disabled)
+                    buttons[index].setBackgroundImage(UIImage(imageLiteralResourceName: "CorrectButton"), for: .disabled)
                 }
                 else if (index == userChoice){
-                    buttons[index].setBackgroundImage(UIImage(imageLiteral: "WrongButton"), forState: .Disabled)
+                    buttons[index].setBackgroundImage(UIImage(imageLiteralResourceName: "WrongButton"), for: .disabled)
                 }
                 else{
-                    buttons[index].setBackgroundImage(UIImage(imageLiteral: "DisabledButton"), forState: .Disabled)
+                    buttons[index].setBackgroundImage(UIImage(imageLiteralResourceName: "DisabledButton"), for: .disabled)
                 }
             }
             self.setButtonsEnabled(false)
-            self.swipeRecognizer.enabled = true
+            self.swipeRecognizer.isEnabled = true
         }
         
     }
     
     // helper function to enable/disable all buttons
-    func setButtonsEnabled(isEnabled:Bool){
-        self.choiceOne.enabled = isEnabled
-        self.choiceTwo.enabled = isEnabled
-        self.choiceThree.enabled = isEnabled
-        self.choiceFour.enabled = isEnabled
+    func setButtonsEnabled(_ isEnabled:Bool){
+        self.choiceOne.isEnabled = isEnabled
+        self.choiceTwo.isEnabled = isEnabled
+        self.choiceThree.isEnabled = isEnabled
+        self.choiceFour.isEnabled = isEnabled
     }
     
     // called by AddPersonViewController to store its form fields,
     // which this controller can then pass to the UploadResultViewController
     // when the post response comes back form the server
-    func setFormFields(photo: UIImage?, name: String?){
+    func setFormFields(_ photo: UIImage?, name: String?){
         self.formPhotoField = photo
         self.formNameField = name
     }
     
     // display the UploadResultViewController modally to notify user of result
-    func showPostResults(success:Bool){
+    func showPostResults(_ success:Bool){
         
-        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-        let vc = storyboard.instantiateViewControllerWithIdentifier("postResultsVC") as! UploadResultViewController
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc = storyboard.instantiateViewController(withIdentifier: "postResultsVC") as! UploadResultViewController
         var resultText:String? = nil
         if (success){
             resultText = "Successfully added \(self.formNameField!) to the name game!☺️"
@@ -207,15 +205,15 @@ class GameViewController: UIViewController {
         vc.resultText = resultText
         vc.photo = self.formPhotoField
         
-        self.presentViewController(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
     
     // Mark: IBActions
     
     // Player selects a multiple choice name option
-    @IBAction func choiceSelected(sender: AnyObject){
+    @IBAction func choiceSelected(_ sender: AnyObject){
         
-        if (self.activityIndicator.isAnimating() || self.isGameOver){
+        if (self.activityIndicator.isAnimating || self.isGameOver){
             // ignore these button presses during a load or when game is already over
             return
         }
@@ -233,27 +231,27 @@ class GameViewController: UIViewController {
             self.userChoice = 3;
         }
         
-        self.viewControllerState = .ResultMode
+        self.viewControllerState = .resultMode
         self.configureViewForState()
     }
     
     // Player chooses to reset the game
-    @IBAction func resetGame(sender: AnyObject){
+    @IBAction func resetGame(_ sender: AnyObject){
         self.numCorrectResponses = 0
         self.numIncorrectResponses = 0
-        self.swipeRecognizer.enabled = false
+        self.swipeRecognizer.isEnabled = false
         self.isGameOver = false
         self.activityIndicator.startAnimating()
-        self.resetBtn.enabled = false
-        self.swipeRecognizer.enabled = false
+        self.resetBtn.isEnabled = false
+        self.swipeRecognizer.isEnabled = false
         self.dataStore.reloadData { (error) -> Void in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 if (error != nil){
-                    let alert = UIAlertController(title: "Error", message: "Failed to load data! Please try again by hitting the reset button.", preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: "Error", message: "Failed to load data! Please try again by hitting the reset button.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
                 }
-                self.resetBtn.enabled = true
+                self.resetBtn.isEnabled = true
                 self.activityIndicator.stopAnimating()
                 self.loadNextPerson()
             })
@@ -261,7 +259,7 @@ class GameViewController: UIViewController {
     }
     
     // Player swipes right
-    @IBAction func nextPerson(sender: AnyObject){
+    @IBAction func nextPerson(_ sender: AnyObject){
         self.loadNextPerson()
     }
 

@@ -25,9 +25,9 @@ class UploadResultViewController: UIViewController {
         // we need this code to run on the main thread b/c it affects the UI
         // we need to explicity dispatch it to the main thread because otherwise
         // this code would run on a background thread via a completion block
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        DispatchQueue.main.async { () -> Void in
             self.photoView.clipsToBounds = true
-            self.photoView.contentMode = UIViewContentMode.ScaleAspectFill
+            self.photoView.contentMode = UIViewContentMode.scaleAspectFill
             self.resultLabel.text = self.resultText
             self.photoView.image = self.photo
         }
@@ -39,8 +39,8 @@ class UploadResultViewController: UIViewController {
     }
     
     // MARK - IBActions
-    @IBAction func dismissResults(sender: AnyObject){
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func dismissResults(_ sender: AnyObject){
+        self.dismiss(animated: true, completion: nil)
     }
 
     /*

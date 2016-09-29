@@ -10,44 +10,44 @@ import UIKit
 
 class HttpServiceClient: NSObject {
 
-    let rdsEndPoint = "http://ec2-52-91-103-99.compute-1.amazonaws.com/service.php";
+    let rdsEndPoint = "http://ec2-54-167-192-170.compute-1.amazonaws.com/service.php";
     
     override init() {
         super.init()
         // custom initialization
     }
     
-    func postData(image: UIImage, name: String, completion: (error: NSError?) -> Void){
-        let request = NSMutableURLRequest(URL: (NSURL(string:self.rdsEndPoint))!)
-        let session = NSURLSession.sharedSession()
-        request.HTTPMethod = "POST"
+    func postData(_ image: UIImage, name: String, completion: @escaping (_ error: NSError?) -> Void){
+        let request = NSMutableURLRequest(url: (URL(string:self.rdsEndPoint))!)
+        let session = URLSession.shared
+        request.httpMethod = "POST"
         if let imageData = UIImageJPEGRepresentation(image, 0.5)
         {
             // Create your request string with parameter name as defined in PHP file
-            let requestString: String = "name=\(name)&imageData=\(imageData.base64EncodedStringWithOptions([]))"
+            let requestString: String = "name=\(name)&imageData=\(imageData.base64EncodedString(options: []))"
             // Create Data from request
-            let requestData: NSData = NSData(bytes: String(requestString.utf8), length: requestString.characters.count)
+            let requestData: Data = Data(bytes: UnsafePointer<UInt8>(String(describing: requestString.utf8)), count: requestString.characters.count)
             // Set content-type
             request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
-            request.HTTPBody = requestData
+            request.httpBody = requestData
             
-            let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) in
                 print("Response: \(response)")
                 print("Error: \(error)")
                 if (data != nil){
-                    if let strData = NSString(data: data!, encoding: NSUTF8StringEncoding){
+                    if let strData = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
                         print("Body: \(strData)")
                         if (strData == "success")
                         {
-                            completion(error:nil)
+                            completion(nil)
                         }else{
-                            completion(error:NSError(domain: "HTTP POST", code: 478, userInfo: nil));
+                            completion(NSError(domain: "HTTP POST", code: 478, userInfo: nil));
                         }
                     }else{
-                        completion(error:NSError(domain: "HTTP POST", code: 479, userInfo: nil));
+                        completion(NSError(domain: "HTTP POST", code: 479, userInfo: nil));
                     }
                 }else{
-                    completion(error:NSError(domain: "HTTP POST", code: 480, userInfo: nil));
+                    completion(NSError(domain: "HTTP POST", code: 480, userInfo: nil));
                 }
                 
             })
@@ -55,64 +55,64 @@ class HttpServiceClient: NSObject {
             task.resume()
         }
         else{
-            completion(error:NSError(domain:"ImageData", code: 477, userInfo: nil));
+            completion(NSError(domain:"ImageData", code: 477, userInfo: nil));
         }
     }
     
-    func getPeople(completion: (error: NSError?, people:NSDictionary?) -> Void){
-        let request = NSMutableURLRequest(URL: (NSURL(string:self.rdsEndPoint))!)
-        let session = NSURLSession.sharedSession()
-        request.HTTPMethod = "GET"
+    func getPeople(_ completion: @escaping (_ error: NSError?, _ people:NSDictionary?) -> Void){
+        let request = NSMutableURLRequest(url: (URL(string:self.rdsEndPoint))!)
+        let session = URLSession.shared
+        request.httpMethod = "GET"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
         
-        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {data, response, error -> Void in
             print("Response: \(response)")
             print("Error: \(error)")
             if (data != nil){
                 var jsonObject:NSDictionary? = nil
                 do{
-                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
+                    jsonObject = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary
                 }catch{
                     print("failed to convert json")
                 }
                 if (jsonObject != nil)
                 {
-                    completion(error:nil, people:jsonObject)
+                    completion(nil, jsonObject)
                 }else{
-                    completion(error:NSError(domain: "HTTP GET", code: 471, userInfo: nil), people:nil);
+                    completion(NSError(domain: "HTTP GET", code: 471, userInfo: nil), nil);
                 }
             }else{
-                completion(error:NSError(domain: "HTTP GET", code: 472, userInfo: nil), people:nil);
+                completion(NSError(domain: "HTTP GET", code: 472, userInfo: nil), nil);
             }
         })
             
         task.resume()
     }
     
-    func getImage(personID:Int, completion: (error: NSError?, encodedImage:String?) -> Void){
-        let request = NSMutableURLRequest(URL: (NSURL(string:self.rdsEndPoint+"?id=\(personID)"))!)
-        let session = NSURLSession.sharedSession()
-        request.HTTPMethod = "GET"
+    func getImage(_ personID:Int, completion: @escaping (_ error: NSError?, _ encodedImage:String?) -> Void){
+        let request = NSMutableURLRequest(url: (URL(string:self.rdsEndPoint+"?id=\(personID)"))!)
+        let session = URLSession.shared
+        request.httpMethod = "GET"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content-type")
         
-        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+        let task = session.dataTask(with: request as URLRequest, completionHandler: {data, response, error -> Void in
             print("Response: \(response)")
             print("Error: \(error)")
             if (data != nil){
                 var jsonObject:NSDictionary? = nil
                 do{
-                    jsonObject = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary
+                    jsonObject = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary
                 }catch{
                     print("failed to convert json")
                 }
                 if (jsonObject != nil)
                 {
-                    completion(error:nil, encodedImage:(jsonObject!)["data"] as? String)
+                    completion(nil, (jsonObject!)["data"] as? String)
                 }else{
-                    completion(error:NSError(domain: "HTTP GET", code: 471, userInfo: nil), encodedImage:nil);
+                    completion(NSError(domain: "HTTP GET", code: 471, userInfo: nil), nil);
                 }
             }else{
-                completion(error:NSError(domain: "HTTP GET", code: 472, userInfo: nil), encodedImage:nil);
+                completion(NSError(domain: "HTTP GET", code: 472, userInfo: nil), nil);
             }
         })
         
